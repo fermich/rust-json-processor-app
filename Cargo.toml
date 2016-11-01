@@ -1,0 +1,8 @@
+[package]
+name = "rust-json-processor"
+version = "0.1.0"
+authors = ["Michal Ferlinski <fermich@gmail.com>"]
+
+[dependencies]
+regex = "0.1"
+rustc-serialize = "0.3.19"
