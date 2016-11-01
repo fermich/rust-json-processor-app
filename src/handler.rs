@@ -36,8 +36,33 @@ impl PayloadHandler {
         }
     }
 
-    pub fn handle(&self, msg: &String) {
+    pub fn handle(&self, msg: &String) -> bool {
         let json: JsonPayload = json::decode(msg).unwrap();
-        println!("Matches? {}", self.filter.matches(&json.date))
+        self.filter.matches(&json.date)
+    }
+}
+
+
+#[cfg(test)]
+mod tests {
+    use super::PayloadHandler;
+
+    #[test]
+    fn should_pass_on_correct_date() {
+        let handler = PayloadHandler::new().unwrap();
+        assert_eq!(handler.handle(&"{\"date\":\"2016-10-10\"}".to_string()), true);
+    }
+
+    #[test]
+    fn should_fail_on_wrong_date() {
+        let handler = PayloadHandler::new().unwrap();
+        assert_eq!(handler.handle(&"{\"date\":\"aaaa-bb-cc\"}".to_string()), false);
+    }
+
+    #[test]
+    #[should_panic]
+    fn should_panic_on_bad_json() {
+        let handler = PayloadHandler::new().unwrap();
+        assert_eq!(handler.handle(&"{date:aaaa-bb-cc}".to_string()), false);
     }
 }
