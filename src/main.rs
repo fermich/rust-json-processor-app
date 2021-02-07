@@ -8,7 +8,7 @@ mod messaging;
 use server::JsonMessageServer;
 use messaging::MessageRouter;
 
-fn main() {
+fn main() {    
     let num_of_consumers = 8;
     match MessageRouter::new(num_of_consumers) {
         Some(router) => {
